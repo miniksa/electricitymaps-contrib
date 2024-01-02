@@ -5,6 +5,7 @@ from typing import Any
 import pandas as pd
 from requests import Response, Session
 
+from electricitymap.contrib.capacity_parsers import CAPACITY_PARSER_SOURCE_TO_ZONES
 from electricitymap.contrib.config import ZoneKey
 
 """Disclaimer: this parser does not include distributed capacity.
@@ -37,6 +38,7 @@ REGION_MAPPING = {
 }
 
 SOURCE = "ons.org.br"
+ONS_ZONES = CAPACITY_PARSER_SOURCE_TO_ZONES["ONS"]
 
 
 def filter_data_by_date(data: pd.DataFrame, target_datetime: datetime) -> pd.DataFrame:
@@ -96,7 +98,7 @@ def fetch_production_capacity_for_all_zones(
     df = df.groupby(["zone_key", "mode", "datetime"])[["value"]].sum().reset_index()
     if not df.empty:
         capacity = {}
-        for zone in df["zone_key"].unique():
+        for zone in ONS_ZONES:
             zone_capacity_df = df.loc[df["zone_key"] == zone]
             zone_capacity = {}
             for idx, data in zone_capacity_df.iterrows():

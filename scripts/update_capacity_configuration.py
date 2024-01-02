@@ -6,6 +6,7 @@ from typing import Any
 
 from requests import Session
 
+from electricitymap.contrib.capacity_parsers import CAPACITY_PARSER_SOURCE_TO_ZONES
 from electricitymap.contrib.config import CONFIG_DIR, ZONE_PARENT
 from electricitymap.contrib.config.constants import PRODUCTION_MODES, STORAGE_MODES
 from electricitymap.contrib.config.reading import read_zones_config
@@ -20,16 +21,6 @@ CAPACITY_MODES = PRODUCTION_MODES + [f"{mode} storage" for mode in STORAGE_MODES
 
 
 CAPACITY_PARSERS = PARSER_KEY_TO_DICT["productionCapacity"]
-
-# Get productionCapacity source to zones mapping
-CAPACITY_PARSER_SOURCE_TO_ZONES = {}
-for zone_id, zone_config in ZONES_CONFIG.items():
-    if zone_config.get("parsers", {}).get("productionCapacity") is None:
-        continue
-    source = zone_config.get("parsers", {}).get("productionCapacity").split(".")[0]
-    if source not in CAPACITY_PARSER_SOURCE_TO_ZONES:
-        CAPACITY_PARSER_SOURCE_TO_ZONES[source] = []
-    CAPACITY_PARSER_SOURCE_TO_ZONES[source].append(zone_id)
 
 
 def update_zone(

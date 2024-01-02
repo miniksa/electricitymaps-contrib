@@ -9,12 +9,13 @@ from requests import Response, Session
 from electricitymap.contrib.config import ZoneKey
 from parsers.EIA import REGIONS
 from parsers.lib.utils import get_token
+from electricitymap.contrib.capacity_parsers import CAPACITY_PARSER_SOURCE_TO_ZONES
 
 logger = getLogger(__name__)
 
 CAPACITY_URL = "https://api.eia.gov/v2/electricity/operating-generator-capacity/data/?frequency=monthly&data[0]=nameplate-capacity-mw&facets[balancing_authority_code][]={}"
 SOURCE = "EIA.gov"
-US_ZONES = {key: value for key, value in REGIONS.items() if key.startswith("US-")}
+EIA_ZONES = CAPACITY_PARSER_SOURCE_TO_ZONES["EIA"]
 TECHNOLOGY_TO_MODE = {
     "All Other": "unknown",
     "Batteries": "battery storage",
@@ -99,7 +100,7 @@ def fetch_production_capacity_for_all_zones(
     eia_capacity = {}
     if session is None:
         session = Session()
-    for zone in US_ZONES:
+    for zone in EIA_ZONES:
         zone_capacity = fetch_production_capacity(zone, target_datetime, session)
         if zone_capacity:
             eia_capacity[zone] = zone_capacity
