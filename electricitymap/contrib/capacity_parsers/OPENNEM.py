@@ -5,6 +5,7 @@ from typing import Any
 import pandas as pd
 from requests import Response, Session
 
+from electricitymap.contrib.capacity_parsers import CAPACITY_PARSER_SOURCE_TO_ZONES
 from electricitymap.contrib.config import ZoneKey
 from parsers.OPENNEM import SOURCE, ZONE_KEY_TO_REGION
 
@@ -35,6 +36,7 @@ FUEL_MAPPING = {
 }
 
 CAPACITY_URL = "https://api.opennem.org.au/facility/"
+OPENNEM_ZONES = CAPACITY_PARSER_SOURCE_TO_ZONES["OPENNEM"]
 
 
 def get_opennem_capacity_data(session: Session) -> dict[str, Any]:
@@ -98,7 +100,7 @@ def fetch_production_capacity_for_all_zones(
     )
 
     capacity = {}
-    for zone in capacity_df["zone_key"].unique():
+    for zone in OPENNEM_ZONES:
         zone_capacity_df = capacity_df.loc[capacity_df["zone_key"] == zone]
         zone_capacity = {}
         for idx, data in zone_capacity_df.iterrows():
