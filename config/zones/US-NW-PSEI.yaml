@@ -201,6 +201,21 @@ fallbackZoneMixes:
         solar: 0.0011718717086126617
         unknown: 0.01411175710668211
         wind: 0.09162811031212982
+    - _source: PSE 2020 Electricity Fuel Mix
+      datetime: '2020-01-01'
+      value:
+        battery discharge: 0.0
+        biomass: 0.01
+        coal: 0.23
+        gas: 0.27
+        geothermal: 0.0
+        hydro: 0.24
+        hydro discharge: 0.0
+        nuclear: 0.0
+        oil: 0.01
+        solar: 0.01
+        unknown: 0.14
+        wind: 0.09
 parsers:
   consumption: EIA.fetch_consumption
   consumptionForecast: EIA.fetch_consumption_forecast
@@ -213,4 +228,9 @@ sources:
     link: https://drive.google.com/file/d/1_FAAuTtIdMuORZKsqHnd9vMNHlQgYarh/view?usp=sharing
   eGrid 2021:
     link: ' https://drive.google.com/file/d/1_FAAuTtIdMuORZKsqHnd9vMNHlQgYarh/view?usp=sharing'
+  PSE 2020 Electricity Fuel Mix:
+    link: https://www.pse.com/en/pages/energy-supply/electric-supply
+  PSE 2023 Electric Progress Report:
+    link: https://www.pse.com/-/media/PDFs/IRP/2023/electric/chapters/00_EPR23_ChapterBook_Final.pdf?modified=20230331180618
+  
 timezone: US/Pacific
